@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuando el agua se va</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#EEF1EC; --surface:#F8FAF6; --ink:#17231D; --muted:#56645B; --line:#CFD7CF;
+  --water:#1D6A86; --water-soft:#D5E7EE; --dry:#A8691C; --dry-soft:#F2E3CB; --deep:#17231D; --on-deep:#E6ECE6;
+  --display:'Bricolage Grotesque', 'Arial Narrow', Arial, sans-serif;
+  --body:'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --mono:'IBM Plex Mono', Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#101814; --surface:#17221C; --ink:#E4EAE4; --muted:#A3B0A7; --line:#2C3A32;
+    --water:#6BB8D4; --water-soft:#173340; --dry:#E2A54E; --dry-soft:#3A2C17; --deep:#0B110E; --on-deep:#E4EAE4;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#101814; --surface:#17221C; --ink:#E4EAE4; --muted:#A3B0A7; --line:#2C3A32;
+  --water:#6BB8D4; --water-soft:#173340; --dry:#E2A54E; --dry-soft:#3A2C17; --deep:#0B110E; --on-deep:#E4EAE4;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:18px; line-height:1.6; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display); line-height:1.08; text-wrap:balance; margin:0}
+h1{font-size:clamp(44px,7.5vw,92px); font-weight:800; letter-spacing:-0.02em}
+h2{font-size:clamp(32px,4.6vw,52px); font-weight:700; letter-spacing:-0.01em}
+h3{font-size:22px; font-weight:700}
+p{margin:0}
+.label{font-family:var(--mono); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--water)}
+.tbd{background:var(--dry-soft); color:var(--dry); font-weight:600; padding:0 6px; border-radius:4px; white-space:nowrap}
+img{display:block; max-width:100%; height:auto}
+
+/* nav */
+nav.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:color-mix(in srgb,var(--bg) 88%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:12px}
+nav.top strong{font-family:var(--display); font-size:17px}
+nav.top ul{display:flex; gap:20px; list-style:none; margin:0; padding:0; overflow-x:auto}
+nav.top a{color:var(--muted); text-decoration:none; font-size:15px; font-weight:600; white-space:nowrap}
+nav.top a:hover,nav.top a:focus-visible{color:var(--water)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--water); outline-offset:3px}
+
+/* hero */
+.hero{display:grid; grid-template-columns:1.25fr 1fr; gap:48px; align-items:center; padding-block:56px 72px}
+.hero .copy{display:flex; flex-direction:column; gap:24px}
+.hero .lede{font-size:21px; color:var(--muted); max-width:34em}
+.hero .who{font-family:var(--mono); font-size:14px; color:var(--muted)}
+.hero figure{margin:0; position:relative}
+.hero figure img{width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:6px}
+.stamp{position:absolute; left:-24px; bottom:28px; background:var(--dry); color:#1B130A; font-family:var(--display); font-weight:800; padding:14px 20px; border-radius:4px; line-height:1.05}
+.stamp span{display:block; font-size:44px}
+.stamp small{font-family:var(--body); font-weight:600; font-size:15px}
+
+section.block{padding-block:72px; border-top:1px solid var(--line)}
+.head{display:flex; flex-direction:column; gap:14px; max-width:760px; margin-bottom:40px}
+.head p{color:var(--muted); font-size:19px}
+
+/* phase tabs */
+.phase{display:inline-flex; align-items:center; gap:10px}
+.phase b{font-family:var(--mono); font-weight:500; font-size:13px; background:var(--water); color:var(--bg); padding:2px 8px; border-radius:3px}
+
+/* nino steps */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+.steps > div{padding:28px; display:flex; flex-direction:column; gap:10px}
+.steps > div + div{border-left:1px solid var(--line)}
+.steps .n{font-family:var(--mono); color:var(--dry); font-size:14px}
+.steps p{color:var(--muted)}
+
+.figures{display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:40px}
+.fig{border-top:3px solid var(--dry); padding-top:16px; display:flex; flex-direction:column; gap:6px}
+.fig .big{font-family:var(--display); font-weight:800; font-size:clamp(44px,6vw,64px); line-height:1; color:var(--dry); font-variant-numeric:tabular-nums}
+.fig p{color:var(--muted)}
+.src{font-size:14px; color:var(--muted); margin-top:20px}
+
+/* flow simulator */
+.flow{margin-top:56px; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:28px; display:flex; flex-direction:column; gap:24px}
+.flow-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px}
+.toggle{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:4px; background:var(--bg)}
+.toggle button{font:inherit; font-size:15px; font-weight:600; border:0; background:transparent; color:var(--muted); padding:8px 16px; border-radius:999px; cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+.chain{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+.stage{display:flex; flex-direction:column; gap:10px}
+.stage .name{font-weight:700}
+.meter{height:14px; border-radius:7px; background:var(--water-soft); overflow:hidden}
+.meter i{display:block; height:100%; background:var(--water); border-radius:7px; transition:width .6s ease}
+.stage small{color:var(--muted); font-size:15px}
+.flow .note{font-size:14px; color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.meter i{transition:none}}
+
+/* how it works */
+.how{display:grid; grid-template-columns:repeat(3,1fr); gap:28px}
+.how figure{margin:0; display:flex; flex-direction:column; gap:12px}
+.how img{width:100%; aspect-ratio:3/2; object-fit:cover; border-radius:6px}
+.how figcaption{display:flex; flex-direction:column; gap:4px}
+.how figcaption p{color:var(--muted); font-size:16px}
+
+.plants{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px}
+.plant{background:var(--deep); color:var(--on-deep); border-radius:6px; padding:32px; display:flex; flex-direction:column; gap:14px}
+.plant h3{font-size:30px}
+.plant dl{display:grid; grid-template-columns:auto 1fr; gap:6px 18px; margin:0}
+.plant dt{font-family:var(--mono); font-size:13px; text-transform:uppercase; letter-spacing:.06em; opacity:.7; padding-top:3px}
+.plant dd{margin:0}
+.plant .tbd{background:rgba(226,165,78,.18); color:#E9B266}
+
+/* findings */
+.findings{display:grid; grid-template-columns:1fr 1.1fr; gap:48px; align-items:start}
+.findings img{width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:6px}
+.list{display:flex; flex-direction:column}
+.list > div{padding-block:18px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:4px}
+.list > div:last-child{border-bottom:1px solid var(--line)}
+.list p{color:var(--muted)}
+
+.cause{display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center; margin-top:56px}
+.cause .col{border-radius:6px; padding:28px; display:flex; flex-direction:column; gap:12px}
+.cause .c1{background:var(--surface); border:1px solid var(--line)}
+.cause .c2{background:var(--deep); color:var(--on-deep)}
+.cause ul{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
+.cause .arrow{font-family:var(--display); font-size:40px; color:var(--dry)}
+
+/* plan */
+.goal{background:var(--water); color:var(--bg); border-radius:6px; padding:36px; display:flex; flex-direction:column; gap:18px}
+.goal p.big{font-family:var(--display); font-weight:700; font-size:clamp(24px,3vw,34px); line-height:1.2; text-wrap:balance}
+.chips{display:flex; flex-wrap:wrap; gap:10px}
+.chips span{font-size:14px; font-weight:700; background:var(--bg); color:var(--water); padding:6px 14px; border-radius:999px}
+.tablewrap{overflow-x:auto; margin-top:32px; border:1px solid var(--line); border-radius:6px}
+table{border-collapse:collapse; width:100%; min-width:680px; background:var(--surface); font-size:16px}
+th,td{text-align:left; padding:14px 16px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-family:var(--mono); font-weight:500; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); background:var(--bg)}
+tr:last-child td{border-bottom:0}
+
+/* execution */
+.exec{display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:start}
+.exec img{width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:6px}
+ol.tl{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+ol.tl li{display:grid; grid-template-columns:96px 1fr; gap:16px; padding-block:16px; border-top:1px solid var(--line)}
+ol.tl li:last-child{border-bottom:1px solid var(--line)}
+ol.tl time{font-family:var(--mono); font-size:14px; color:var(--dry); padding-top:3px}
+.balance{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px}
+.balance > div{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:26px; display:flex; flex-direction:column; gap:10px}
+.balance ul{margin:0; padding-left:20px}
+.ok h3{color:var(--water)} .ko h3{color:var(--dry)}
+
+/* buen vivir */
+.bv{background:var(--deep); color:var(--on-deep); position:relative; overflow:hidden}
+.bv::before{content:""; position:absolute; inset:0; background:url(img/cauce.jpg) center/cover; opacity:.22}
+.bv .wrap{position:relative; padding-block:88px; display:flex; flex-direction:column; gap:28px}
+.bv .label{color:#E9B266}
+.bv h2{max-width:900px}
+.bv p.ref{max-width:720px; opacity:.85; font-size:19px}
+.pledges{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:12px}
+.pledges p{border-top:2px solid #E9B266; padding-top:14px; font-weight:600}
+
+footer{padding-block:48px; display:flex; flex-direction:column; gap:16px}
+footer .team{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+footer .team div{display:flex; flex-direction:column; gap:2px}
+footer small{color:var(--muted); font-size:14px}
+footer .srcs{color:var(--muted); font-size:14px; border-top:1px solid var(--line); padding-top:16px}
+footer a{color:var(--water)}
+
+@media (max-width:820px){
+  .hero,.findings,.exec,.plants,.balance{grid-template-columns:1fr}
+  .hero{padding-block:32px 48px}
+  .stamp{left:12px}
+  .steps{grid-template-columns:1fr}
+  .steps > div + div{border-left:0; border-top:1px solid var(--line)}
+  .figures,.how,.chain,.pledges{grid-template-columns:1fr}
+  .cause{grid-template-columns:1fr}
+  .cause .arrow{transform:rotate(90deg); justify-self:center}
+  footer .team{grid-template-columns:1fr 1fr}
+  nav.top strong{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Secciones">
+  <div class="wrap">
+    <strong>Cuando el agua se va</strong>
+    <ul>
+      <li><a href="#diagnostico">Diagnóstico</a></li>
+      <li><a href="#programacion">Programación</a></li>
+      <li><a href="#ejecucion">Ejecución</a></li>
+      <li><a href="#buenvivir">Buen vivir</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <div class="copy">
+    <p class="label">Buen Vivir · Proyecto ambiental</p>
+    <h1>Cuando el agua se va</h1>
+    <p class="lede">El fenómeno de El Niño está secando las quebradas que alimentan las plantas Miraflores y Pueblo Viejo, los acueductos veredales que abastecen las veredas y el barrio La Tablaza.</p>
+    <p class="who">Equipo: <span class="tbd">[Integrantes]</span> · <span class="tbd">[Municipio]</span> · 2026</p>
+  </div>
+  <figure>
+    <img src="img/quebrada.jpg" alt="Quebrada entre el bosque que alimenta una de las plantas">
+    <div class="stamp"><span>3 cortes</span><small>de agua al día, en el peor momento</small></div>
+  </figure>
+</header>
+
+<section class="block" id="diagnostico">
+  <div class="wrap">
+    <div class="head">
+      <p class="label phase"><b>1</b> Diagnóstico</p>
+      <h2>¿Qué es El Niño y por qué nos deja sin agua?</h2>
+      <p>Es un calentamiento anormal del océano Pacífico tropical que cambia el clima de medio mundo. En Colombia se traduce en menos lluvia y más calor.</p>
+    </div>
+    <div class="steps">
+      <div><span class="n">Paso 1</span><h3>El Pacífico se calienta</h3><p>El agua del océano sube de temperatura más de lo normal durante meses.</p></div>
+      <div><span class="n">Paso 2</span><h3>Cambian vientos y nubes</h3><p>Llega menos humedad a las montañas de la región Andina.</p></div>
+      <div><span class="n">Paso 3</span><h3>Bajan las quebradas</h3><p>Llueve menos, hace más calor y las fuentes de agua pierden caudal.</p></div>
+    </div>
+    <div class="figures">
+      <div class="fig"><span class="big">11 jun</span><p>El Gobierno confirmó el inicio de El Niño en 2026.</p></div>
+      <div class="fig"><span class="big">96%</span><p>de probabilidad de que continúe entre noviembre y enero.</p></div>
+      <div class="fig"><span class="big">63%</span><p>de probabilidad de que llegue a intensidad muy fuerte, entre los más intensos desde 1950.</p></div>
+    </div>
+    <p class="src">Fuente: Ministerio de Ambiente e IDEAM, junio de 2026.</p>
+
+    <div class="flow" aria-labelledby="flow-title">
+      <div class="flow-top">
+        <h3 id="flow-title">Del nacimiento a la llave de la casa</h3>
+        <div class="toggle" role="group" aria-label="Escenario">
+          <button type="button" id="btn-normal" aria-pressed="false">Época normal</button>
+          <button type="button" id="btn-nino" aria-pressed="true">Con El Niño</button>
+        </div>
+      </div>
+      <div class="chain">
+        <div class="stage"><span class="name">Quebrada</span><div class="meter"><i id="m1"></i></div><small id="t1"></small></div>
+        <div class="stage"><span class="name">Tanques de la planta</span><div class="meter"><i id="m2"></i></div><small id="t2"></small></div>
+        <div class="stage"><span class="name">Casas</span><div class="meter"><i id="m3"></i></div><small id="t3"></small></div>
+      </div>
+      <p class="note">Esquema ilustrativo, no son mediciones. Los datos reales de caudal van en los hallazgos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="head">
+      <p class="label">Diagnóstico · El lugar</p>
+      <h2>Así llega el agua cuando no hay EPM</h2>
+      <p>Una "planta" es un acueducto veredal que administra la propia comunidad. Sus tanques reciben el agua que baja de la montaña y la reparten a las casas.</p>
+    </div>
+    <div class="how">
+      <figure><img src="img/cauce.jpg" alt="Quebrada de montaña con agua corriendo entre piedras"><figcaption><h3>La quebrada</h3><p>El agua nace en la montaña y baja entre el bosque.</p></figcaption></figure>
+      <figure><img src="img/bocatoma.jpg" alt="Rejilla de captación en la quebrada con dos personas revisando"><figcaption><h3>La captación</h3><p>Una rejilla la recoge y un canal la conduce a la planta.</p></figcaption></figure>
+      <figure><img src="img/canal_trabajo.jpg" alt="Canal y desarenador de la planta con un operario caminando al lado"><figcaption><h3>Tanques y casas</h3><p>Los tanques la almacenan y la reparten a las viviendas.</p></figcaption></figure>
+    </div>
+    <div class="plants">
+      <article class="plant">
+        <p class="label" style="color:#E9B266">Acueducto veredal</p>
+        <h3>Planta Miraflores</h3>
+        <dl><dt>Abastece</dt><dd><span class="tbd">[veredas / sectores]</span></dd><dt>Familias</dt><dd><span class="tbd">[N]</span></dd><dt>Fuente</dt><dd><span class="tbd">[quebrada]</span></dd></dl>
+      </article>
+      <article class="plant">
+        <p class="label" style="color:#E9B266">Acueducto veredal</p>
+        <h3>Planta Pueblo Viejo</h3>
+        <dl><dt>Abastece</dt><dd><span class="tbd">[veredas / sectores]</span></dd><dt>Familias</dt><dd><span class="tbd">[N]</span></dd><dt>Fuente</dt><dd><span class="tbd">[quebrada]</span></dd></dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="findings">
+      <img src="img/manguera.jpg" alt="Manguera azul que sale directamente de la quebrada entre la vegetación">
+      <div style="display:flex; flex-direction:column; gap:24px">
+        <div class="head" style="margin:0">
+          <p class="label">Diagnóstico · Trabajo de campo</p>
+          <h2>Lo que encontramos</h2>
+        </div>
+        <div class="list">
+          <div><h3>Quebradas con menos agua</h3><p>Caudal hoy: <span class="tbd">[__]</span>. En época normal: <span class="tbd">[__]</span>.</p></div>
+          <div><h3>Tanques que no alcanzan a llenarse</h3><p>Entra menos agua de la que la comunidad consume.</p></div>
+          <div><h3>Cortes hasta 3 veces al día</h3><p>El servicio se interrumpe para recuperar nivel y repartir a todas las casas.</p></div>
+          <div><h3>Mangueras sin control</h3><p>Captaciones que sacan agua directamente de la quebrada.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cause">
+      <div class="col c1"><h3>Causas</h3><ul><li>Menos lluvia y más calor por El Niño</li><li>Tala y potreros junto a las quebradas</li><li>Captaciones con manguera sin control</li><li>Desperdicio de agua en las casas</li></ul></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="col c2"><h3>Efectos</h3><ul><li>Baja el caudal que llega a las plantas</li><li>Cortes de agua hasta 3 veces al día</li><li>Más riesgo de incendios forestales</li><li>Pérdidas en cultivos y animales</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="programacion">
+  <div class="wrap">
+    <div class="head">
+      <p class="label phase"><b>2</b> Programación</p>
+      <h2>¿Cómo, quiénes, cuándo y con qué?</h2>
+    </div>
+    <div class="goal">
+      <p class="label" style="color:var(--bg)">Objetivo general</p>
+      <p class="big">Reducir el impacto de la sequía en las plantas Miraflores y Pueblo Viejo con acciones de monitoreo, ahorro y protección de las quebradas.</p>
+      <div class="chips"><span>ODS 6 · Agua limpia y saneamiento</span><span>ODS 13 · Acción por el clima</span></div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Actividad (¿cómo?)</th><th>¿Quiénes?</th><th>¿Cuándo?</th><th>Recursos</th></tr></thead>
+        <tbody>
+          <tr><td>Visitar y grabar las dos plantas</td><td><span class="tbd">[Nombre]</span></td><td><span class="tbd">[Fecha]</span></td><td>Celular, transporte</td></tr>
+          <tr><td>Entrevistar al operador sobre caudales y cortes</td><td><span class="tbd">[Nombre]</span></td><td><span class="tbd">[Fecha]</span></td><td>Guía de preguntas, celular</td></tr>
+          <tr><td>Registrar caudal y nivel de tanques</td><td><span class="tbd">[Nombre]</span></td><td><span class="tbd">[Fecha]</span></td><td>Balde, cronómetro, planilla</td></tr>
+          <tr><td>Campaña de ahorro en las veredas y La Tablaza</td><td><span class="tbd">[Nombre]</span></td><td><span class="tbd">[Fecha]</span></td><td>Volantes, grupo de WhatsApp</td></tr>
+          <tr><td>Proponer siembra nativa en las quebradas</td><td><span class="tbd">[Nombre]</span></td><td><span class="tbd">[Fecha]</span></td><td>Plántulas, herramientas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="ejecucion">
+  <div class="wrap">
+    <div class="exec">
+      <div style="display:flex; flex-direction:column; gap:24px">
+        <div class="head" style="margin:0">
+          <p class="label phase"><b>3</b> Ejecución</p>
+          <h2>Lo que hicimos</h2>
+        </div>
+        <ol class="tl">
+          <li><time>25 sep</time><span>Recorrido y registro en video de las plantas Miraflores y Pueblo Viejo</span></li>
+          <li><time><span class="tbd">[Fecha]</span></time><span>Conversación con <span class="tbd">[operador / junta]</span> sobre los cortes</span></li>
+          <li><time><span class="tbd">[Fecha]</span></time><span><span class="tbd">[Registro de caudal o nivel de tanques]</span></span></li>
+          <li><time><span class="tbd">[Fecha]</span></time><span><span class="tbd">[Campaña de ahorro con la comunidad]</span></span></li>
+        </ol>
+      </div>
+      <img src="img/tanque.jpg" alt="Muro de concreto sobre la quebrada con el agua pasando por encima">
+    </div>
+    <div class="balance">
+      <div class="ok"><h3>Logros</h3><ul><li>Registro en video de las dos plantas</li><li><span class="tbd">[Datos de cortes y caudal]</span></li><li><span class="tbd">[Familias alcanzadas]</span></li></ul></div>
+      <div class="ko"><h3>Dificultades</h3><ul><li><span class="tbd">[Ej.: acceso difícil a las plantas]</span></li><li><span class="tbd">[Ej.: sin registros históricos de caudal]</span></li><li><span class="tbd">[Ej.: coordinar horarios]</span></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="bv" id="buenvivir">
+  <div class="wrap">
+    <p class="label">Reflexión · Buen vivir</p>
+    <h2>El agua no es algo que se gasta: es la vida que compartimos con la quebrada, el bosque y los vecinos.</h2>
+    <p class="ref">El buen vivir (sumak kawsay) propone vivir en armonía con la naturaleza y la comunidad, en lugar de ver el agua solo como un recurso para explotar (Acosta, 2012; Gudynas y Acosta, 2011). Un acueducto que administra la propia comunidad es un ejemplo de esa idea.</p>
+    <div class="pledges">
+      <p>Cuidar el bosque es cuidar la quebrada.</p>
+      <p>Ahorrar en casa es compartir con el vecino.</p>
+      <p>Prepararnos hoy es no sufrir mañana.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="label">Equipo</p>
+  <div class="team">
+    <div><strong><span class="tbd">[Nombre 1]</span></strong><small>Presentación y cierre</small></div>
+    <div><strong><span class="tbd">[Nombre 2]</span></strong><small>El Niño y las plantas</small></div>
+    <div><strong><span class="tbd">[Nombre 3]</span></strong><small>Hallazgos, causas y efectos</small></div>
+    <div><strong><span class="tbd">[Nombre 4]</span></strong><small>Plan y ejecución</small></div>
+  </div>
+  <p class="srcs">Fuentes: <a href="https://www.minambiente.gov.co/gobierno-confirma-inicio-del-fenomeno-de-el-nino-y-alerta-sobre-su-alcance/">Ministerio de Ambiente (2026)</a>; <a href="https://www.ideam.gov.co/sala-de-prensa/noticia/ideam-indica-que-las-condiciones-tipo-el-nino-ya-se-encuentran-presentes">IDEAM (2026)</a>; Acosta, A. (2012), <i>Buen vivir: Sumak kawsay</i>; Gudynas, E. y Acosta, A. (2011). Fotografías: registro propio del equipo en las plantas Miraflores y Pueblo Viejo.</p>
+</footer>
+
+<script>
+(function(){
+  var data = {
+    normal: [[90,'Caudal estable todo el año'],[85,'Los tanques se llenan sin problema'],[95,'Servicio continuo']],
+    nino:   [[35,'Menos lluvia y más calor: el caudal cae'],[30,'Los tanques no alcanzan a llenarse'],[40,'Cortes hasta 3 veces al día']]
+  };
+  var bN = document.getElementById('btn-normal'), bE = document.getElementById('btn-nino');
+  function set(k){
+    data[k].forEach(function(d,i){
+      document.getElementById('m'+(i+1)).style.width = d[0]+'%';
+      document.getElementById('t'+(i+1)).textContent = d[1];
+    });
+    bN.setAttribute('aria-pressed', k==='normal'); bE.setAttribute('aria-pressed', k==='nino');
+  }
+  bN.addEventListener('click', function(){ set('normal'); });
+  bE.addEventListener('click', function(){ set('nino'); });
+  set('nino');
+})();
+</script>
+
+</body>
+</html>
